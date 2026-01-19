@@ -7,7 +7,9 @@ public class CharacterMovement : MonoBehaviour
 
     [Header("Variables")]
     [SerializeField] private float walkSpeed = 5.0f;
-    [SerializeField] private bool isGrounded;
+    [SerializeField] private float gravity = 9.81f;
+
+    private float vertVeloc;
 
     [Header("Player Input")]
     private float moveInput;
@@ -27,12 +29,22 @@ public class CharacterMovement : MonoBehaviour
     private void GroundMovement() {
 
         Vector3 move = new Vector3(turnInput, 0, moveInput);
-        move.y = 0;
+        move.y = GravityCalc();
 
         move *= walkSpeed;
 
         controller.Move(move * Time.deltaTime);
     
+    }
+
+    private float GravityCalc()
+    {
+        if (controller.isGrounded)
+        {
+            vertVeloc = -1f;
+        }
+        else { vertVeloc -= gravity * Time.deltaTime;}
+        return vertVeloc;
     }
     private void InputDetection()
     {
