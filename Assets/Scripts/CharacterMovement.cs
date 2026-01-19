@@ -4,6 +4,7 @@ public class CharacterMovement : MonoBehaviour
 {
     [Header("Components")]
     private CharacterController controller;
+    private Animator animator;
 
     [Header("Variables")]
     [SerializeField] private float walkSpeed = 5.0f;
@@ -19,6 +20,7 @@ public class CharacterMovement : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
     }
 
     private void PlayerMovement()
@@ -34,7 +36,7 @@ public class CharacterMovement : MonoBehaviour
         move *= walkSpeed;
 
         controller.Move(move * Time.deltaTime);
-    
+        
     }
 
     private float GravityCalc()
