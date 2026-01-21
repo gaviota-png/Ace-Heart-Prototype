@@ -23,7 +23,7 @@ public class Card : MonoBehaviour
             collision.gameObject.tag = "Marked";
 
             Destroy(gameObject);
-            Debug.Log("Card destroyed");
+
         }
 
         if (collision.gameObject.tag == "Marked")

@@ -1,14 +1,15 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CardSpawner : MonoBehaviour
 {
-    [SerializeField] private Transform cardPrefab;
+    [SerializeField] public GameObject cardPrefab;
     [SerializeField] private Transform originPoint;
     [SerializeField] float distance = 3f;
+    public Card card;
 
-
-    private Vector3 endPos;//vector x dist lerp dur
+    private Vector3 endPos;//vector x dist
     public bool isShooting = false;
     private Transform savedCard;
     
@@ -30,9 +31,7 @@ public class CardSpawner : MonoBehaviour
         endPos = originPoint.transform.position + originPoint.transform.forward * distance;
         if (cardPrefab && originPoint)
         {
-            
             StartCoroutine(CardPosition(originPoint, endPos, cooldown));
-                 
 
         }
 
@@ -44,25 +43,37 @@ public class CardSpawner : MonoBehaviour
     {
         float newTimer = 0f;
         isShooting = true;
-        savedCard = Instantiate<Transform>(cardPrefab, pos.position, pos.rotation);
-        Vector3 startpos = savedCard.position;
+        GameObject savedCard = Instantiate(cardPrefab, pos.position, pos.rotation);
+        Vector3 startpos = savedCard.transform.position;
+        card = savedCard.GetComponent<Card>();//posicion de carta
         //separar card de padre
         savedCard.transform.parent = null;
-        while (newTimer < timer)
+        while (newTimer < timer && savedCard!= null)
         {
-            Debug.Log("Lerp TIme");
-            savedCard.position = Vector3.Lerp(startpos, target, (newTimer / timer));
+            savedCard.transform.position = Vector3.Lerp(startpos, target, (newTimer / timer));
             newTimer += Time.deltaTime;
             yield return null;
         }
         isShooting = false;
-        savedCard.position = target;
+        savedCard.transform.position = target;
 
         Card moving = savedCard.GetComponent<Card>();
         if (moving)
         {
             moving.cardMoving = false;
+            Debug.Log("Card Not Moving");
+            if (moving.gameObject.tag == "Card")
+            {
+                Debug.Log("Card Marked");
+                moving.gameObject.tag = "Marked";
+
+            }
+
         }
+
+        
+        
+            
 
     }
 

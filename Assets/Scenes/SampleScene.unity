@@ -660,7 +660,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -786,6 +786,7 @@ GameObject:
   - component: {fileID: 1001455830}
   - component: {fileID: 1001455833}
   - component: {fileID: 1001455834}
+  - component: {fileID: 1001455835}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -807,7 +808,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dashCloud: {fileID: 2118096109}
   cloudSpawn: {fileID: 1733130530}
-  gravity: 9.81
+  playerDisabled: 0
   rollSpeed: 10
   rollDist: 0.8
   playerSpeed: 5
@@ -888,11 +889,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c3653ab98ead024c8cdbc24d05a3917, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardPrefab: {fileID: 7208544656962048142, guid: b05cd80e2fa09a340a0fab80a6ae6bff, type: 3}
+  cardPrefab: {fileID: 6995806776476518726, guid: b05cd80e2fa09a340a0fab80a6ae6bff, type: 3}
   originPoint: {fileID: 515243631}
   distance: 2
+  card: {fileID: 0}
   isShooting: 0
   cooldown: 2.5
+--- !u!114 &1001455835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001455829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e948328768aa5458d978164ce89049, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1081747079
 PrefabInstance:
   m_ObjectHideFlags: 0

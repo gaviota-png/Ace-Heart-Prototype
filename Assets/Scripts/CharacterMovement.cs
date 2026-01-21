@@ -12,39 +12,47 @@ public class CharacterMovement : MonoBehaviour
     private CharacterController controller;
     private Animator animator;
     private CardSpawner cSpawn;
-    [SerializeField] private ParticleSystem dashCloud;
-    [SerializeField] private Transform cloudSpawn;
     
 
+
+    [SerializeField] private ParticleSystem dashCloud;
+    [SerializeField] private Transform cloudSpawn;
+
+
+
     [Header("Variables")]
-    [SerializeField] float gravity = 9.81f;
+    public bool playerDisabled = false;
+    float gravity = 9.81f;
     [SerializeField] float rollSpeed = 8.0f;
     [SerializeField] float rollDist = 0.25f;
     [SerializeField] float playerSpeed = 5.0f;
 
 
-    private float vertVeloc;
+    private float vertVeloc; //para gravedad
 
+    //Rolling/Dash + Movimiento
+    Vector3 movement;
+    Vector3 rollMovement;
+    Vector3 lastMove;
     private bool isRolling = false;
     private float rollTime;
     private float rollCDT;
     private float rollCD;
     
+    //Modificacion Collider para anim events
     private float newHeight = 1.12f;
     private float ogHeight;
-
-    Vector3 movement;
-    Vector3 rollMovement;
-    Vector3 lastMove;
     Vector3 newCenter = new Vector3(0f, 0.1f, 0.6f);
     Vector3 ogCenter;
+
+    
+    
      
     [Header("Player Input")]
 
     private float moveInput;
     private float turnInput;
     private bool rollInput;
-    private bool tpInput;
 
 
     void Start()
@@ -77,10 +85,6 @@ public class CharacterMovement : MonoBehaviour
         return vertVeloc;
     }
 
-    private void SpawnCloud()
-    {
-        dashCloud.Play();
-    }
     private void GroundMovement()
     {
         
@@ -128,7 +132,7 @@ public class CharacterMovement : MonoBehaviour
 
         if (isRolling)
         {
-            //SpawnCloud();
+            
             dashCloud.Play();
             controller.Move(rollMovement * rollSpeed * Time.deltaTime);
             rollMovement.y = GravityCalc();
@@ -144,12 +148,12 @@ public class CharacterMovement : MonoBehaviour
 
         if (!cSpawn.isShooting)
         {
+            //lock angulo en direccion de camara           
             controller.Move(movement * playerSpeed * Time.deltaTime);          
 
         }
         
  
-
         //Inputs para animator
         if (moveInput != 0 || turnInput != 0){
             animator.SetBool("isRunning", true);
@@ -158,10 +162,6 @@ public class CharacterMovement : MonoBehaviour
         {
             animator.SetBool("isRunning",false);
         }
-
-        
-
-        
 
     }
 
@@ -191,9 +191,13 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        PlayerMovement();
-        animator.SetBool("isAttacking", cSpawn.isShooting);
+        if (!playerDisabled)
+        {
+            PlayerMovement();
+            animator.SetBool("isAttacking", cSpawn.isShooting);
+        }
+        
+        
         
     }
 }
