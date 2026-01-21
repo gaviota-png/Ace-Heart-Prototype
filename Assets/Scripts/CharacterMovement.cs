@@ -12,6 +12,8 @@ public class CharacterMovement : MonoBehaviour
     private CharacterController controller;
     private Animator animator;
     private CardSpawner cSpawn;
+    [SerializeField] private ParticleSystem dashCloud;
+    [SerializeField] private Transform cloudSpawn;
     
 
     [Header("Variables")]
@@ -19,6 +21,7 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] float rollSpeed = 8.0f;
     [SerializeField] float rollDist = 0.25f;
     [SerializeField] float playerSpeed = 5.0f;
+
 
     private float vertVeloc;
 
@@ -73,6 +76,11 @@ public class CharacterMovement : MonoBehaviour
         else { vertVeloc -= gravity * Time.deltaTime;}
         return vertVeloc;
     }
+
+    private void SpawnCloud()
+    {
+        dashCloud.Play();
+    }
     private void GroundMovement()
     {
         
@@ -120,7 +128,8 @@ public class CharacterMovement : MonoBehaviour
 
         if (isRolling)
         {
-            
+            //SpawnCloud();
+            dashCloud.Play();
             controller.Move(rollMovement * rollSpeed * Time.deltaTime);
             rollMovement.y = GravityCalc();
             rollTime -= Time.deltaTime;
