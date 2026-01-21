@@ -1,5 +1,9 @@
+using System.Collections;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 
 public class CharacterMovement : MonoBehaviour
@@ -7,13 +11,22 @@ public class CharacterMovement : MonoBehaviour
     [Header("Components")]
     private CharacterController controller;
     private Animator animator;
-
+    [SerializeField] AnimationCurve rollCurve;
 
     [Header("Variables")]
-    [SerializeField] private float gravity = 9.81f;
+    [SerializeField] float gravity = 9.81f;
+    [SerializeField] float rollSpeed = 1.0f;
+    float rollTime = 1.0f;
+    float rollStop = 0.1f;
 
-    public float vertVeloc;
+    float currentRollTime;
+    float newHeight = 1.12f;
+    Vector3 newCenter = new Vector3(0f, 0.1f, 0.6f);
+    float ogHeight;
+    Vector3 ogCenter;
 
+    private float vertVeloc;
+    
     [Header("Player Input")]
 
     private float moveInput;
@@ -27,6 +40,11 @@ public class CharacterMovement : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+
+        currentRollTime = rollTime;
+
+        ogHeight = controller.height;
+        ogCenter = controller.center;
     }
 
     private void PlayerMovement()
@@ -63,6 +81,8 @@ public class CharacterMovement : MonoBehaviour
         movement.y = GravityCalc();
         controller.Move(movement / 8);
 
+
+
         //Inputs para animator
         if (moveInput != 0 || turnInput != 0){
             animator.SetBool("isRunning", true);
@@ -77,13 +97,52 @@ public class CharacterMovement : MonoBehaviour
         if (rollInput)
         {
             animator.SetBool("isRolling", true);
+
         }
         else
         {
+
             animator.SetBool("isRolling", false);
-        }    
-        
+        }
+
+        atkInput = Input.GetKey(KeyCode.K);
+
+        if (atkInput)
+        {
+            animator.SetBool("isAttacking", true);
+
+        }
+        else
+        {
+
+            animator.SetBool("isAttacking", false);
+        }
+
+
     }
+
+    #region Animation Events
+    public void AnimationCollider()
+    {
+     // Debug.Log("Collider change");
+        controller.height = newHeight;
+        controller.center = newCenter;
+    }
+
+    public void ColliderReset()
+    {
+      //Debug.Log("Collider reset");
+        controller.height = ogHeight;
+        controller.center = ogCenter;
+    }
+
+    public void ThrowCard()
+    {
+        Debug.Log("Card Throw");
+    }
+
+    #endregion
+
     // Update is called once per frame
     void Update()
     {
