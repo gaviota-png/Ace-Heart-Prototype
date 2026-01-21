@@ -11,27 +11,35 @@ public class CharacterMovement : MonoBehaviour
     [Header("Components")]
     private CharacterController controller;
     private Animator animator;
-    [SerializeField] AnimationCurve rollCurve;
+    private CardSpawner cSpawn;
+    
 
     [Header("Variables")]
     [SerializeField] float gravity = 9.81f;
-    [SerializeField] float rollSpeed = 1.0f;
-    float rollTime = 1.0f;
-    float rollStop = 0.1f;
-
-    float currentRollTime;
-    float newHeight = 1.12f;
-    Vector3 newCenter = new Vector3(0f, 0.1f, 0.6f);
-    float ogHeight;
-    Vector3 ogCenter;
+    [SerializeField] float rollSpeed = 8.0f;
+    [SerializeField] float rollDist = 0.25f;
+    [SerializeField] float playerSpeed = 5.0f;
 
     private float vertVeloc;
+
+    private bool isRolling = false;
+    private float rollTime;
+    private float rollCDT;
+    private float rollCD;
     
+    private float newHeight = 1.12f;
+    private float ogHeight;
+
+    Vector3 movement;
+    Vector3 rollMovement;
+    Vector3 lastMove;
+    Vector3 newCenter = new Vector3(0f, 0.1f, 0.6f);
+    Vector3 ogCenter;
+     
     [Header("Player Input")]
 
     private float moveInput;
     private float turnInput;
-    private bool atkInput;
     private bool rollInput;
     private bool tpInput;
 
@@ -40,8 +48,9 @@ public class CharacterMovement : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        cSpawn = GetComponent<CardSpawner>();
+     
 
-        currentRollTime = rollTime;
 
         ogHeight = controller.height;
         ogCenter = controller.center;
@@ -51,7 +60,7 @@ public class CharacterMovement : MonoBehaviour
     {
         GroundMovement();//movimiento de personaje
         //teleport
-        //ataque + proyectil
+
     }
 
     //calculo de gravedad
@@ -70,7 +79,7 @@ public class CharacterMovement : MonoBehaviour
         moveInput = Input.GetAxis("Vertical");
         turnInput = Input.GetAxis("Horizontal");
 
-        Vector3 movement = new Vector3(turnInput, 0, moveInput);        
+        movement = new Vector3(turnInput, 0, moveInput).normalized;        
 
         //Si hay input, moverse en direccion y quedarse mirando a la ult si no hay.
         if (moveInput != 0 || turnInput != 0)
@@ -78,10 +87,59 @@ public class CharacterMovement : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(movement);
         }
 
+        if(movement != Vector3.zero)
+        {
+            lastMove = movement;//ultima pos
+        }
+
         movement.y = GravityCalc();
-        controller.Move(movement / 8);
 
+        rollInput = Input.GetKey(KeyCode.Space);
 
+        if (rollInput && !isRolling && rollCDT <= 0f)
+        {
+            //roll movement
+            isRolling = true;
+            rollTime = rollDist;
+            rollCDT = rollCD;
+
+            rollMovement = lastMove;
+            if (rollMovement == Vector3.zero)
+            {
+                rollMovement = transform.forward;
+            }
+
+            animator.SetBool("isRolling", true);
+
+        }
+
+        if (rollCDT > 0f)
+        {
+            rollCDT -= Time.deltaTime;
+        }
+
+        if (isRolling)
+        {
+            
+            controller.Move(rollMovement * rollSpeed * Time.deltaTime);
+            rollMovement.y = GravityCalc();
+            rollTime -= Time.deltaTime;
+            if (rollTime <= 0)
+            {
+                isRolling = false;
+                animator.SetBool("isRolling", false);
+            }
+
+            return;
+        }
+
+        if (!cSpawn.isShooting)
+        {
+            controller.Move(movement * playerSpeed * Time.deltaTime);          
+
+        }
+        
+ 
 
         //Inputs para animator
         if (moveInput != 0 || turnInput != 0){
@@ -92,34 +150,12 @@ public class CharacterMovement : MonoBehaviour
             animator.SetBool("isRunning",false);
         }
 
-        rollInput = Input.GetKey(KeyCode.Space);
+        
 
-        if (rollInput)
-        {
-            animator.SetBool("isRolling", true);
-
-        }
-        else
-        {
-
-            animator.SetBool("isRolling", false);
-        }
-
-        atkInput = Input.GetKey(KeyCode.K);
-
-        if (atkInput)
-        {
-            animator.SetBool("isAttacking", true);
-
-        }
-        else
-        {
-
-            animator.SetBool("isAttacking", false);
-        }
-
+        
 
     }
+
 
     #region Animation Events
     public void AnimationCollider()
@@ -146,6 +182,9 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         PlayerMovement();
+        animator.SetBool("isAttacking", cSpawn.isShooting);
+        
     }
 }

@@ -805,14 +805,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f36014cc4af00414cba774280f7d75b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rollCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   gravity: 9.81
-  rollSpeed: 1
+  rollSpeed: 10
+  rollDist: 0.8
+  playerSpeed: 5
 --- !u!143 &1001455831
 CharacterController:
   m_ObjectHideFlags: 0
@@ -891,8 +887,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardPrefab: {fileID: 7208544656962048142, guid: b05cd80e2fa09a340a0fab80a6ae6bff, type: 3}
   originPoint: {fileID: 515243631}
-  distance: 1
-  cooldown: 1
+  distance: 2
+  isShooting: 0
+  cooldown: 2.5
 --- !u!1 &1158611570
 GameObject:
   m_ObjectHideFlags: 0
