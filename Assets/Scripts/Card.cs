@@ -20,13 +20,13 @@ public class Card : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             Debug.Log("Marked Enemy");
-            collision.gameObject.tag = "Marked";
+            collision.gameObject.tag = "EnemyMarked";
 
             Destroy(gameObject);
 
         }
 
-        if (collision.gameObject.tag == "Marked")
+        if (collision.gameObject.tag == "EnemyMarked" || collision.gameObject.tag == "Marked")
         {
             Destroy(gameObject);
         }

@@ -25,6 +25,17 @@ public class CardSpawner : MonoBehaviour
         }
     }
 
+    public void DestroyCard()
+    {
+        
+        if (card != null)
+        {
+           
+            Destroy(card.gameObject);
+            card = null;
+        }
+    }
+
     void FireCard()
     {
         
@@ -55,25 +66,28 @@ public class CardSpawner : MonoBehaviour
             yield return null;
         }
         isShooting = false;
-        savedCard.transform.position = target;
-
-        Card moving = savedCard.GetComponent<Card>();
-        if (moving)
+        if (savedCard != null)
         {
-            moving.cardMoving = false;
-            Debug.Log("Card Not Moving");
-            if (moving.gameObject.tag == "Card")
+            savedCard.transform.position = target;
+            Card moving = savedCard.GetComponent<Card>();
+            if (moving)
             {
-                Debug.Log("Card Marked");
-                moving.gameObject.tag = "Marked";
+                moving.cardMoving = false;
+                Debug.Log("Card Not Moving");
+                if (moving.gameObject.tag == "Card")
+                {
+                    Debug.Log("Card Marked");
+                    moving.gameObject.tag = "Marked";
+
+                }
 
             }
-
         }
-
-        
-        
-            
+        else
+        {
+            Debug.Log("Carta destruida antes de finalizar recorrido");
+        }
+   
 
     }
 
