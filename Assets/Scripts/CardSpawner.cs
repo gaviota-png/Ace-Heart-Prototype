@@ -78,6 +78,7 @@ public class CardSpawner : MonoBehaviour
                 {
                     Debug.Log("Card Marked");
                     moving.gameObject.tag = "Marked";
+                    moving.tpPointer.SetActive(true);
 
                 }
 

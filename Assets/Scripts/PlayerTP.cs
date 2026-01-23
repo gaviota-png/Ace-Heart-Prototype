@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using System.Collections;
 using UnityEngine;
 
@@ -7,44 +8,66 @@ public class PlayerTP : MonoBehaviour
     CardSpawner cSpawn;
     CharacterMovement player;
     GameObject enemy;
-    public GameObject feetPos;
+
+    [SerializeField] private ParticleSystem tpCloud;
+    //public GameObject feetPos;
     //Enemy enemy;
 
     private void Start()
     {
         cSpawn = GetComponent<CardSpawner>();
         player = GetComponent<CharacterMovement>();
+       
 
-        
-        
     }
     private void Awake()
     {
+        //for every enemy with tag -> add to list(?)
         enemy = GameObject.FindGameObjectWithTag("Enemy");//busca objecto con tag Enemy
+
+        
     }
 
     void Update()
     {
 
+
         if (Input.GetKeyDown(KeyCode.M))
         {
+            
             Debug.Log("Teleporting");
             if (cSpawn.card != null)
             {
+  
                 if (cSpawn.card.gameObject.tag == "Marked")//si obj carta tiene tag marked y existe carta ejecutar code
-                {
+                {     
                     Debug.Log("Teleported to card");
                     StartCoroutine(TeleportCard());
                 }
+
             }
             
-            else if (enemy.gameObject.tag == "EnemyMarked")//si obj tiene tag enemymarked ejecutar code
+            else if (enemy != null)//si obj tiene tag enemymarked ejecutar code
             {
-                StartCoroutine(TeleportEnemy());
-                enemy.gameObject.tag = "Enemy";
+                EnemyController enem = enemy.GetComponent<EnemyController>();
+                Debug.Log("Existe Enemigo");
+                if (enem.tag == "EnemyMarked")
+                {
+                    StartCoroutine(TeleportEnemy());
+                    Debug.Log("Teleported to enemy");
+                    enem.tag = "Enemy";
+                    enem.tpPointer.SetActive(false);
+                    
+                }
+                
+
+
             }
+
             
         }
+
+
     }
 
     IEnumerator TeleportCard()
@@ -58,9 +81,11 @@ public class PlayerTP : MonoBehaviour
 
         cSpawn.DestroyCard();
         gameObject.transform.position = pos;
+        
         p.enabled = true;
         
         yield return new WaitForSeconds(0.1f);
+        
         player.playerDisabled = false;
 
     }
@@ -81,11 +106,14 @@ public class PlayerTP : MonoBehaviour
         Vector3 newPos = new Vector3(oldEnemPos.x, oldEnemPos.y, oldEnemPos.z);//pos nueva jugador con antigua enem
 
         enemy.transform.position = newEnemyPos;
+        
         gameObject.transform.position = newPos;
+        
 
         p.enabled = true;
         Debug.Log("Teleported to Enemy");
         yield return new WaitForSeconds(0.1f);
+        
         player.playerDisabled = false;
         
     }

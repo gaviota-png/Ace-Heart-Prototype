@@ -12,13 +12,11 @@ public class CharacterMovement : MonoBehaviour
     private CharacterController controller;
     private Animator animator;
     private CardSpawner cSpawn;
-    
+    public GameObject attackHitbox;
 
 
     [SerializeField] private ParticleSystem dashCloud;
     [SerializeField] private Transform cloudSpawn;
-
-
 
     [Header("Variables")]
     public bool playerDisabled = false;
@@ -45,14 +43,12 @@ public class CharacterMovement : MonoBehaviour
     Vector3 newCenter = new Vector3(0f, 0.1f, 0.6f);
     Vector3 ogCenter;
 
-    
-    
-     
     [Header("Player Input")]
 
     private float moveInput;
     private float turnInput;
     private bool rollInput;
+    private bool atkInput;
 
 
     void Start()
@@ -60,17 +56,21 @@ public class CharacterMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         cSpawn = GetComponent<CardSpawner>();
-     
+
+        //atkTrigger.SetActive(false);
+
+
 
 
         ogHeight = controller.height;
         ogCenter = controller.center;
     }
 
+    #region Player Related
     private void PlayerMovement()
     {
         GroundMovement();//movimiento de personaje
-        //teleport
+        Attack();//Ataque jugador
 
     }
 
@@ -85,11 +85,13 @@ public class CharacterMovement : MonoBehaviour
         return vertVeloc;
     }
 
+    
     private void GroundMovement()
     {
         
         moveInput = Input.GetAxis("Vertical");
         turnInput = Input.GetAxis("Horizontal");
+        rollInput = Input.GetKey(KeyCode.Space);
 
         movement = new Vector3(turnInput, 0, moveInput).normalized;        
 
@@ -105,8 +107,6 @@ public class CharacterMovement : MonoBehaviour
         }
 
         movement.y = GravityCalc();
-
-        rollInput = Input.GetKey(KeyCode.Space);
 
         if (rollInput && !isRolling && rollCDT <= 0f)
         {
@@ -165,6 +165,20 @@ public class CharacterMovement : MonoBehaviour
 
     }
 
+    private void Attack()
+    {
+        
+        if (atkInput)
+        {
+            attackHitbox.SetActive(true);
+            Debug.Log("Attacking");
+        }
+        attackHitbox.SetActive(false); 
+    }
+
+
+
+    #endregion
 
     #region Animation Events
     public void AnimationCollider()
@@ -188,13 +202,19 @@ public class CharacterMovement : MonoBehaviour
 
     #endregion
 
+
+
     // Update is called once per frame
     void Update()
     {
+        atkInput = Input.GetKey(KeyCode.X);
         if (!playerDisabled)
         {
             PlayerMovement();
+            
             animator.SetBool("isAttacking", cSpawn.isShooting);
+           
+
         }
         
         
