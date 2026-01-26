@@ -9,11 +9,12 @@ TagManager:
   - Enemy
   - EnemyMarked
   - TPCloud
+  - Wall
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - Enemy

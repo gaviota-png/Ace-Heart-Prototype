@@ -13,7 +13,7 @@ public class CharacterMovement : MonoBehaviour
     private Animator animator;
     private CardSpawner cSpawn;
     public GameObject attackHitbox;
-
+    GameObject enemy;
 
     [SerializeField] private ParticleSystem dashCloud;
     [SerializeField] private Transform cloudSpawn;
@@ -56,11 +56,9 @@ public class CharacterMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         cSpawn = GetComponent<CardSpawner>();
+        enemy = GameObject.FindGameObjectWithTag("Enemy");
 
         //atkTrigger.SetActive(false);
-
-
-
 
         ogHeight = controller.height;
         ogCenter = controller.center;
@@ -167,13 +165,28 @@ public class CharacterMovement : MonoBehaviour
 
     private void Attack()
     {
-        
-        if (atkInput)
+        EnemyController enem = enemy.GetComponent<EnemyController>();
+
+        if (atkInput)//si presiona tecla
         {
-            attackHitbox.SetActive(true);
+            attackHitbox.SetActive(true); //activa hitbox frente a jugador
             Debug.Log("Attacking");
+            //enem.TakeDamage();
+            Debug.Log(enem.enemyLife);
+
+            if (enem.enemyLife <= 0)
+            {
+                Debug.Log("Enemy Defeated");
+                
+            }
+
         }
-        attackHitbox.SetActive(false); 
+        else
+        {
+            attackHitbox.SetActive(false);
+            
+        }
+         
     }
 
 
@@ -207,7 +220,7 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        atkInput = Input.GetKey(KeyCode.X);
+        atkInput = Input.GetKeyDown(KeyCode.X);
         if (!playerDisabled)
         {
             PlayerMovement();
@@ -216,8 +229,8 @@ public class CharacterMovement : MonoBehaviour
            
 
         }
-        
-        
-        
+
     }
+
+
 }

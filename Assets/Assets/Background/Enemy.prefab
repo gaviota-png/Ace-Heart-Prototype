@@ -151,6 +151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 441e5be217ff1e641bfeb90701a130e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tpPointer: {fileID: 1507358781799585830}
+  tpCloudE: {fileID: 1991462150024452461}
 --- !u!1 &1507358781799585830
 GameObject:
   m_ObjectHideFlags: 0

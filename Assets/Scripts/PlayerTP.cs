@@ -1,22 +1,24 @@
 using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerTP : MonoBehaviour
 {
-
+    
+    public List<GameObject> tpList;
     CardSpawner cSpawn;
     CharacterMovement player;
     GameObject enemy;
+    GameObject cards;
 
-    [SerializeField] private ParticleSystem tpCloud;
-    //public GameObject feetPos;
-    //Enemy enemy;
+    private int listIndex = 3; //maximo de obj en lista
 
     private void Start()
     {
         cSpawn = GetComponent<CardSpawner>();
         player = GetComponent<CharacterMovement>();
+        tpList = new List<GameObject>();
        
 
     }
@@ -24,14 +26,13 @@ public class PlayerTP : MonoBehaviour
     {
         //for every enemy with tag -> add to list(?)
         enemy = GameObject.FindGameObjectWithTag("Enemy");//busca objecto con tag Enemy
-
-        
+        cards = GameObject.FindGameObjectWithTag("Card");
     }
 
+
+    
     void Update()
     {
-
-
         if (Input.GetKeyDown(KeyCode.M))
         {
             
@@ -43,6 +44,8 @@ public class PlayerTP : MonoBehaviour
                 {     
                     Debug.Log("Teleported to card");
                     StartCoroutine(TeleportCard());
+                    //cSpawn.card.tpCloudC.Play();
+                    cSpawn.cardList[0].tpCloudC.Play();
                 }
 
             }
@@ -54,19 +57,16 @@ public class PlayerTP : MonoBehaviour
                 if (enem.tag == "EnemyMarked")
                 {
                     StartCoroutine(TeleportEnemy());
+                    
                     Debug.Log("Teleported to enemy");
                     enem.tag = "Enemy";
                     enem.tpPointer.SetActive(false);
-                    
-                }
-                
+                    enem.tpCloudE.Play();
 
+                }
 
             }
-
-            
         }
-
 
     }
 
@@ -74,18 +74,21 @@ public class PlayerTP : MonoBehaviour
     {
         player.playerDisabled = true;
         CharacterController p = GetComponent<CharacterController>();
+
         p.enabled = false;
         yield return new WaitForSeconds(0.1f);
 
-        Vector3 pos = new Vector3(cSpawn.card.transform.position.x, 0f, cSpawn.card.transform.position.z);
-
+        //Vector3 pos = new Vector3(cSpawn.card.transform.position.x, 0f, cSpawn.card.transform.position.z); //pos final de carta
+        //Vector3 pos = cSpawn.card.finalPos; //pos final carta de raycast
+        Vector3 pos = cSpawn.cardList[0].finalPos;
+        
         cSpawn.DestroyCard();
         gameObject.transform.position = pos;
         
         p.enabled = true;
         
         yield return new WaitForSeconds(0.1f);
-        
+        //Debug.Log("Player tp to " + pos);
         player.playerDisabled = false;
 
     }

@@ -86,6 +86,38 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &2233791086674831176
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5778427673381640544}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5778427673381640544
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2233791086674831176}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4883075432420050165}
+  m_Father: {fileID: 7208544656962048142}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3221390287068782429
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,6 +204,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5063714034715294532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6524347470014561530}
+  m_Layer: 7
+  m_Name: Raycast
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6524347470014561530
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5063714034715294532}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7208544656962048142}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6995806776476518726
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,6 +269,8 @@ Transform:
   m_Children:
   - {fileID: 1145483050493427140}
   - {fileID: 561332248445814325}
+  - {fileID: 5778427673381640544}
+  - {fileID: 6524347470014561530}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1751072380903430203
@@ -220,8 +285,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d91976eb9ca3be40888b1bca9a1ffd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tpCloudC: {fileID: 354965824364917869}
+  raycast: {fileID: 6524347470014561530}
   cardSpeed: 5
   tpPointer: {fileID: 479482473531733403}
+  rayDist: 50
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  finalPos: {x: 0, y: 0, z: 0}
   cardMoving: 1
 --- !u!135 &8887736649780604792
 SphereCollider:
@@ -268,6 +340,73 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
+--- !u!1001 &5002621556316338129
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5778427673381640544}
+    m_Modifications:
+    - target: {fileID: 34639826529414879, guid: 476fb29e25204d04f9e2a8f509a5dcde, type: 3}
+      propertyPath: m_Name
+      value: TPCloud
+      objectReference: {fileID: 0}
+    - target: {fileID: 479856522942739236, guid: 476fb29e25204d04f9e2a8f509a5dcde, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479856522942739236, guid: 476fb29e25204d04f9e2a8f509a5dcde, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479856522942739236, guid: 476fb29e25204d04f9e2a8f509a5dcde, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479856522942739236, guid: 476fb29e25204d04f9e2a8f509a5dcde, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 479856522942739236, guid: 476fb29e25204d04f9e2a8f509a5dcde, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479856522942739236, guid: 476fb29e25204d04f9e2a8f509a5dcde, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479856522942739236, guid: 476fb29e25204d04f9e2a8f509a5dcde, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479856522942739236, guid: 476fb29e25204d04f9e2a8f509a5dcde, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479856522942739236, guid: 476fb29e25204d04f9e2a8f509a5dcde, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479856522942739236, guid: 476fb29e25204d04f9e2a8f509a5dcde, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 476fb29e25204d04f9e2a8f509a5dcde, type: 3}
+--- !u!198 &354965824364917869 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4720324663717053372, guid: 476fb29e25204d04f9e2a8f509a5dcde, type: 3}
+  m_PrefabInstance: {fileID: 5002621556316338129}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4883075432420050165 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 479856522942739236, guid: 476fb29e25204d04f9e2a8f509a5dcde, type: 3}
+  m_PrefabInstance: {fileID: 5002621556316338129}
+  m_PrefabAsset: {fileID: 0}
