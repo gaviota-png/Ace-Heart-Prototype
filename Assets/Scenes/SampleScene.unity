@@ -853,6 +853,8 @@ MonoBehaviour:
   originPoint: {fileID: 515243631}
   distance: 2
   card: {fileID: 0}
+  cardList: []
+  listIndex: 2
   isShooting: 0
   cooldown: 2.5
 --- !u!114 &1001455835
@@ -867,6 +869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e948328768aa5458d978164ce89049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tpList: []
 --- !u!1001 &1081747079
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1203,7 +1206,7 @@ Transform:
   m_GameObject: {fileID: 2032321983}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.6467897, z: 0, w: 0.76266843}
-  m_LocalPosition: {x: 8.2, y: 1.82, z: -0.73}
+  m_LocalPosition: {x: 8.51, y: 1.82, z: -2.63}
   m_LocalScale: {x: 11.2, y: 3.87, z: 0.34}
   m_ConstrainProportionsScale: 0
   m_Children: []
