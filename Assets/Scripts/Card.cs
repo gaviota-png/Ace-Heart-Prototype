@@ -6,19 +6,27 @@ public class Card : MonoBehaviour
     [SerializeField] public Transform raycast;
     [SerializeField] float cardSpeed = 5f;
     public GameObject tpPointer;
+    public GameObject objMarked;
+    CardSpawner spawner;
 
+    public float animDelay = 5f;
     public float rayDist = 5f;
     public LayerMask groundLayer;
 
     public Vector3 finalPos;//pos final de carta
-    public bool isMarked = false;
-    public GameObject markedObject = null;
+
     public bool cardMoving = true;
+    public bool insideObj = false;
+
     // Update is called once per frame
     private void Start()
     {
         tpPointer.SetActive(false);
+    }
 
+    private void Awake()
+    {
+        spawner = FindAnyObjectByType<CardSpawner>();
     }
 
     void Update()
@@ -26,8 +34,27 @@ public class Card : MonoBehaviour
         if (!cardMoving) return;
         MoveCard();
     }
+
+    public void SetCardSpawn(CardSpawner spawn)
+    {
+        //guardar referencia de spawner
+        spawner = spawn;
+    }
+
+    public void PlayTPAnim()
+    {
+
+        tpCloudC.transform.parent = null;
+        tpCloudC.Play();
+        Debug.Log("CARD : PLAYING ANIM");
+        Destroy(tpCloudC.gameObject, animDelay);
+        
+       
+    }
+
     void MoveCard()
     {
+        
         transform.position = transform.position + (transform.forward * Time.deltaTime * cardSpeed);
         RaycastCheck();
     }
@@ -45,7 +72,7 @@ public class Card : MonoBehaviour
 
         if (Physics.Raycast(origin, downDir, out RaycastHit hit, rayDist, groundLayer))
         {
-            Debug.Log("Looking at Ground");
+            Debug.Log("CARD : Looking at Ground");
             
             Debug.DrawRay(origin, downDir * rayDist, Color.red);
             finalPos = hit.point;//pos final carta = raycast
@@ -54,7 +81,7 @@ public class Card : MonoBehaviour
         }
         else
         {
-            Debug.Log("NOT Looking at ground");
+            Debug.Log("CARD : NOT Looking at ground");
         }
         
         
@@ -63,33 +90,20 @@ public class Card : MonoBehaviour
             Debug.DrawRay(origin, forwardDir * rayDist, Color.green);
             if (hitt.transform.CompareTag("Wall"))
             {
-                Debug.Log("Looking at Wall");
+                Debug.Log("CARD : Looking at Wall");
                 
             }
             
         }
         else
         {
-            Debug.Log("NOT Looking at Wall");
+            Debug.Log("CARD : NOT Looking at Wall");
         }
 
 
-        
-
-        //Debug.DrawRay(origin, downDir * rayDist, Color.red);
-
     }
 
-    public void DestroyCard()
-    {
-
-        if (gameObject != null)
-        {
-            Destroy(gameObject);
-        }
-    }
-
-
+    
     private void OnCollisionEnter(Collision collision)
     {
 
@@ -98,21 +112,36 @@ public class Card : MonoBehaviour
             Debug.Log("Marked Enemy");
             collision.gameObject.tag = "EnemyMarked";
             
-            Destroy(gameObject);
+
+            gameObject.SetActive(false);
+            gameObject.transform.SetParent(collision.gameObject.transform);
+            insideObj = true;
+            objMarked = collision.gameObject;
 
         }
 
-        if (collision.gameObject.tag == "EnemyMarked" || collision.gameObject.tag == "Marked")
+        else if (collision.gameObject.tag == "EnemyMarked" || collision.gameObject.tag == "Marked")
         {
-            Destroy(gameObject);
+
+            Debug.Log("Card hit enemy OR another card");
+            if (spawner != null)
+            {
+                spawner.cardStopMoving = true;
+
+            }
         }
+
+
 
         if (collision.gameObject.tag == "Wall" && cardMoving == true) //si choca con pared y se esta moviendo
         {
-            //carta deja de moverse
+            //carta deja de moverse si toca pared
             Debug.Log("CARD STOPS MOVING");
-            cardMoving = false;
-            tpPointer.SetActive(true);
+            if (spawner != null)
+            {
+                spawner.cardStopMoving = true;
+                
+            }
 
         }
 

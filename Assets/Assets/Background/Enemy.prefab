@@ -153,6 +153,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tpPointer: {fileID: 1507358781799585830}
   tpCloudE: {fileID: 1991462150024452461}
+  enemyLife: 3
+  raycast: {fileID: 8621373216158817010}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  animDelay: 0.5
+  rayDist: 50
+  finalPos: {x: 0, y: 0, z: 0}
 --- !u!1 &1507358781799585830
 GameObject:
   m_ObjectHideFlags: 0
