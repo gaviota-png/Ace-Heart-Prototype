@@ -112,23 +112,32 @@ public class Card : MonoBehaviour
             Debug.Log("Marked Enemy");
             collision.gameObject.tag = "EnemyMarked";
             
-
+            //carta dentro de enemigo
             gameObject.SetActive(false);
             gameObject.transform.SetParent(collision.gameObject.transform);
             insideObj = true;
             objMarked = collision.gameObject;
-
+            
         }
 
         else if (collision.gameObject.tag == "EnemyMarked" || collision.gameObject.tag == "Marked")
         {
-
-            Debug.Log("Card hit enemy OR another card");
-            if (spawner != null)
+           if (insideObj == false && cardMoving == true)
             {
-                spawner.cardStopMoving = true;
+                Debug.Log("THERES A CARD INSIDE ENEMY");
+                if (spawner != null)
+                {
+                    Debug.Log("SPAWNER NOT NULL");
+                    spawner.cardStopMoving = true;
 
+                }
             }
+            else
+            {
+                Debug.Log("CARD HIT OBJ (but nothing happened)");
+            }
+
+            
         }
 
 

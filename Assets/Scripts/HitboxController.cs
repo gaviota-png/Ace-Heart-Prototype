@@ -13,16 +13,17 @@ public class HitboxController : MonoBehaviour
             if (other!= null)
             {
                 EnemyController enemy = other.GetComponent<EnemyController>();
-                Debug.Log("ENEMY LIFE : " + enemy.enemyLife);
-                enemy.TakeDamage();
-                
                 Debug.Log("ENEMY CURRENT LIFE : " + enemy.enemyLife);
 
+                enemy.TakeDamage();
                 if (enemy.enemyLife <= 0)
                 {
-                    Debug.Log("ENEMY DEFEATED");
+                    Debug.Log("ENEMY DEAD");
+
                     Destroy(enemy.gameObject);
                 }
+
+
             }
             
         }

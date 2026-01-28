@@ -18,7 +18,7 @@ public class PlayerTP : MonoBehaviour
     private void Awake()
     {
         enemy = GameObject.FindGameObjectWithTag("Enemy");//busca objecto con tag Enemy
-    }
+    }   //agregar objs con tag EnemyMarked
 
     void Update()
     {
@@ -28,24 +28,33 @@ public class PlayerTP : MonoBehaviour
             
             //Debug.Log("Teleporting");
 
-            if (cSpawn.cardQueue.Peek().insideObj == true && enemy != null)
+            if (cSpawn.cardQueue.Peek().insideObj == true)
             {
-                EnemyController enem = enemy.GetComponent<EnemyController>();
-                Debug.Log("Dentro de Enemigo");
-                if (enem.tag == "EnemyMarked")
+                if (enemy != null)
                 {
-                    StartCoroutine(TeleportEnemy());
+                    EnemyController enem = enemy.GetComponent<EnemyController>();
+                    Debug.Log("Dentro de Enemigo");
+                    if (enem.tag == "EnemyMarked")
+                    {
+                        StartCoroutine(TeleportEnemy());
 
-                    Debug.Log("Teleported to enemy");
-                    enem.tag = "Enemy";
-                    enem.tpPointer.SetActive(false);
+                        Debug.Log("Teleported to enemy");
+                        enem.tag = "Enemy";
+                        enem.tpPointer.SetActive(false);
 
-                    enem.PlayTPAnim();
+                        enem.PlayTPAnim();
 
+                    }
                 }
+                else
+                {
+                    Debug.Log("NO ENEMY");
+                    cSpawn.DestroyCard();
+                }
+                
             }
 
-            else if (cSpawn.cardQueue.Peek().tag == "Marked" && cSpawn.cardQueue.Peek() != null)//si obj carta tiene tag marked y existe carta ejecutar code
+            else if (cSpawn.cardQueue.Peek().tag == "Marked")//si obj carta tiene tag marked y existe carta ejecutar code
             {     
                 
                 StartCoroutine(TeleportCard());
@@ -66,6 +75,7 @@ public class PlayerTP : MonoBehaviour
         p.enabled = false;
         yield return new WaitForSeconds(0.1f);
         //Vector3 pos = cSpawn.card.finalPos; //pos final carta de raycast
+
         Vector3 pos = cSpawn.cardQueue.Peek().finalPos;
 
         cSpawn.cardQueue.Peek().PlayTPAnim();

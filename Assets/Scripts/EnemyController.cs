@@ -3,19 +3,28 @@ using UnityEngine.TextCore.Text;
 
 public class EnemyController : MonoBehaviour
 {
+    //Components
     public GameObject tpPointer;
-    
+    public CardSpawner spawner;
+    public GameObject objCard;
     [SerializeField] public ParticleSystem tpCloudE;
+
+    //Variables
     [SerializeField] public int enemyLife = 3;
     [SerializeField] public Transform raycast;
     [SerializeField] public LayerMask groundLayer;
     public float animDelay = 0.5f;
     public float rayDist = 50f;
     public Vector3 finalPos;
+
+    //States
+    public float sightRange;
+    public bool playerInSight, playerInAttack; //Range
    
     void Start()
     {
         tpPointer.SetActive(false);
+        spawner = GetComponent<CardSpawner>(); 
     }
 
     // Update is called once per frame
@@ -51,7 +60,7 @@ public class EnemyController : MonoBehaviour
     public void TakeDamage()
     {
         enemyLife -= 1;
-
+        
     }
 
     public void PlayTPAnim()
@@ -79,7 +88,9 @@ public class EnemyController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Card")
         {
-            tpPointer.SetActive(true);
+            tpPointer.SetActive(true);          
+
+
         }
 
         if (collision.gameObject.tag == "Player")

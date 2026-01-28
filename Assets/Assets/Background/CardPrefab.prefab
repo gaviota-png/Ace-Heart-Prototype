@@ -289,12 +289,15 @@ MonoBehaviour:
   raycast: {fileID: 6524347470014561530}
   cardSpeed: 5
   tpPointer: {fileID: 479482473531733403}
+  objMarked: {fileID: 0}
+  animDelay: 0.2
   rayDist: 50
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   finalPos: {x: 0, y: 0, z: 0}
   cardMoving: 1
+  insideObj: 0
 --- !u!135 &8887736649780604792
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -339,7 +342,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
