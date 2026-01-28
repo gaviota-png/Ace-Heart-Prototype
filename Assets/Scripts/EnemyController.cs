@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class EnemyController : MonoBehaviour
 {
     public GameObject tpPointer;
+    
     [SerializeField] public ParticleSystem tpCloudE;
     [SerializeField] public int enemyLife = 3;
     [SerializeField] public Transform raycast;
@@ -50,10 +52,6 @@ public class EnemyController : MonoBehaviour
     {
         enemyLife -= 1;
 
-        if (enemyLife <= 0)
-        {
-            Destroy(gameObject);
-        }
     }
 
     public void PlayTPAnim()
@@ -70,6 +68,11 @@ public class EnemyController : MonoBehaviour
     void Attacking()
     {
         Debug.Log("Hitting Player");
+    }
+
+    void Chasing()
+    {
+        Debug.Log("Chasing Player");
     }
 
     private void OnCollisionEnter(Collision collision)

@@ -28,7 +28,7 @@ public class PlayerTP : MonoBehaviour
             
             //Debug.Log("Teleporting");
 
-            if (cSpawn.cardQueue.Peek().insideObj == true)
+            if (cSpawn.cardQueue.Peek().insideObj == true && enemy != null)
             {
                 EnemyController enem = enemy.GetComponent<EnemyController>();
                 Debug.Log("Dentro de Enemigo");
@@ -45,7 +45,7 @@ public class PlayerTP : MonoBehaviour
                 }
             }
 
-            else if (cSpawn.cardQueue.Peek().tag == "Marked")//si obj carta tiene tag marked y existe carta ejecutar code
+            else if (cSpawn.cardQueue.Peek().tag == "Marked" && cSpawn.cardQueue.Peek() != null)//si obj carta tiene tag marked y existe carta ejecutar code
             {     
                 
                 StartCoroutine(TeleportCard());

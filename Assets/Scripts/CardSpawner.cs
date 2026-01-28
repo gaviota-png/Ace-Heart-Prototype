@@ -61,12 +61,23 @@ public class CardSpawner : MonoBehaviour
 
     public void DestroyCard()
     {
-        Card exCard = cardQueue.Peek();
+        
+        if (cardQueue != null)
+        {
+            Card exCard = cardQueue.Peek();
 
-        //Debug.Log("REMOVED CARD");
-        cardQueue.Dequeue();
-        Destroy(exCard.gameObject);
-        //Debug.Log("DESTROYED CARD");
+            //Debug.Log("REMOVED CARD");
+            cardQueue.Dequeue();
+            Destroy(exCard.gameObject);
+            Debug.Log("DESTROYED CARD");
+        }
+        else
+        {
+            Debug.Log("NO CARDS IN QUEUE/QUEUE NULL");
+        }
+        
+        
+        
  
     }
     void FireCard()

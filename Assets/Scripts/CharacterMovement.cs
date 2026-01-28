@@ -13,8 +13,9 @@ public class CharacterMovement : MonoBehaviour
     private Animator animator;
     private CardSpawner cSpawn;
     public GameObject attackHitbox;
-    GameObject enemy;
 
+
+    
     [SerializeField] private ParticleSystem dashCloud;
     [SerializeField] private Transform cloudSpawn;
 
@@ -56,7 +57,7 @@ public class CharacterMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         cSpawn = GetComponent<CardSpawner>();
-        enemy = GameObject.FindGameObjectWithTag("Enemy");
+
 
         //atkTrigger.SetActive(false);
 
@@ -165,27 +166,16 @@ public class CharacterMovement : MonoBehaviour
 
     private void Attack()
     {
-        EnemyController enem = enemy.GetComponent<EnemyController>();
-
+        
         if (atkInput)//si presiona tecla
         {
-            attackHitbox.SetActive(true); //activa hitbox frente a jugador
-            Debug.Log("Attacking");
-            //enem.TakeDamage();
-            Debug.Log(enem.enemyLife);
-
-            if (enem.enemyLife <= 0)
-            {
-                Debug.Log("Enemy Defeated");
-                
-            }
-
-        }
-        else
-        {
-            attackHitbox.SetActive(false);
+            animator.SetTrigger("Attack");
             
+            //activa hitbox frente a jugador
+            //usar anim events para ajustar hitbox de ataque de acuerdo a animacion
+            Debug.Log("HITBOX ACTIVE");
         }
+    
          
     }
 
@@ -208,10 +198,17 @@ public class CharacterMovement : MonoBehaviour
         controller.center = ogCenter;
     }
 
-    public void ThrowCard()
+    public void ActivateWeapon()
     {
-        Debug.Log("Card Throw");
+        attackHitbox.SetActive(true);
     }
+ 
+
+    public void DeactivateWeapon()
+    {
+        attackHitbox.SetActive(false);
+    }
+
 
     #endregion
 
