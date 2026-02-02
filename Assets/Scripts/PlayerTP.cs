@@ -1,13 +1,14 @@
-using NUnit.Framework;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 
 public class PlayerTP : MonoBehaviour
 {
     CardSpawner cSpawn;
     CharacterMovement player;
-    GameObject enemy;
+    //GameObject enemy;
 
     private void Start()
     {
@@ -17,54 +18,37 @@ public class PlayerTP : MonoBehaviour
     }
     private void Awake()
     {
-        enemy = GameObject.FindGameObjectWithTag("Enemy");//busca objecto con tag Enemy
+        //enemy = GameObject.FindGameObjectWithTag("Enemy");//busca objecto con tag Enemy
     }   //agregar objs con tag EnemyMarked
 
     void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.M))
         {
-            
-            //Debug.Log("Teleporting");
-
             if (cSpawn.cardQueue.Peek().insideObj == true)
             {
-                if (enemy != null)
+                if(cSpawn.cardQueue.Peek().objMarked!=null)
                 {
-                    EnemyController enem = enemy.GetComponent<EnemyController>();
-                    Debug.Log("Dentro de Enemigo");
+                    EnemyController enem = (cSpawn.cardQueue.Peek().objMarked.GetComponent<EnemyController>());
                     if (enem.tag == "EnemyMarked")
                     {
-                        StartCoroutine(TeleportEnemy());
-
+                        StartCoroutine(TeleportEnemy(enem));
                         Debug.Log("Teleported to enemy");
                         enem.tag = "Enemy";
                         enem.tpPointer.SetActive(false);
-
                         enem.PlayTPAnim();
-
                     }
                 }
                 else
                 {
-                    Debug.Log("NO ENEMY");
                     cSpawn.DestroyCard();
                 }
-                
             }
-
             else if (cSpawn.cardQueue.Peek().tag == "Marked")//si obj carta tiene tag marked y existe carta ejecutar code
-            {     
-                
+            {
                 StartCoroutine(TeleportCard());
-
-                
-                
             }
- 
         }
-
     }
 
     IEnumerator TeleportCard()
@@ -92,7 +76,7 @@ public class PlayerTP : MonoBehaviour
 
     }
 
-    IEnumerator TeleportEnemy()
+    IEnumerator TeleportEnemy(EnemyController enemy)
     {
         player.playerDisabled = true;
         CharacterController p = GetComponent<CharacterController>();

@@ -16,12 +16,14 @@ public class HitboxController : MonoBehaviour
                 Debug.Log("ENEMY CURRENT LIFE : " + enemy.enemyLife);
 
                 enemy.TakeDamage();
-                if (enemy.enemyLife <= 0)
-                {
-                    Debug.Log("ENEMY DEAD");
+                
+                //Esto corresponde al enemigo asi que se mueve a esa clase, dentro del método.
+                //if (enemy.enemyLife <= 0)
+                //{
+                //    Debug.Log("ENEMY DEAD");
 
-                    Destroy(enemy.gameObject);
-                }
+                //    Destroy(enemy.gameObject);
+                //}
 
 
             }

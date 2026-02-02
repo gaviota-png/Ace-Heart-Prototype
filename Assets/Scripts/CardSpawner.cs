@@ -68,8 +68,14 @@ public class CardSpawner : MonoBehaviour
 
             //Debug.Log("REMOVED CARD");
             cardQueue.Dequeue();
-            Destroy(exCard.gameObject);
-            Debug.Log("DESTROYED CARD");
+            try
+            {
+                Destroy(exCard.gameObject);
+            }
+            catch
+            {
+                Debug.Log("La carta ya fue destruida");
+            }
         }
         else
         {

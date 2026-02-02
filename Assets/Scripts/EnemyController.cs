@@ -152,8 +152,13 @@ public class EnemyController : MonoBehaviour
 
     public void TakeDamage()
     {
-        enemyLife -= 1;
-        
+        if (enemyLife >= 0)
+        {
+            enemyLife -= 1;
+            Debug.Log("ENEMY DEAD");
+
+           Destroy(gameObject);
+        }
     }
 
     public void PlayTPAnim()
