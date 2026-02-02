@@ -10,7 +10,7 @@ public class EnemyController : MonoBehaviour
     //Components
     public GameObject tpPointer;
     public NavMeshAgent agent;
-    public Transform playerPos;
+    private Transform playerPos;
     [SerializeField] public ParticleSystem tpCloudE;
 
     //Variables
@@ -22,12 +22,12 @@ public class EnemyController : MonoBehaviour
     bool playerReachable;
 
     float lastSeen;
-    float seenTimer = 2.5f;
+    float seenTimer = 5f;
 
     //Patrol
     [SerializeField] public Transform waypoints;
     int waypointIndex;
-    float waitTime = 1f;
+    float waitTime = 2f;
     float timer = 0f;
 
     //States
@@ -135,7 +135,7 @@ public class EnemyController : MonoBehaviour
 
                 }
 
-                Debug.Log("ENEMY HEADING TOWARDS " + waypoints.GetChild(waypointIndex));
+                //Debug.Log("ENEMY HEADING TOWARDS " + waypoints.GetChild(waypointIndex));
                 agent.SetDestination(waypoints.GetChild(waypointIndex).position);
             }
 
