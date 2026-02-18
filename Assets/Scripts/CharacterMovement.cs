@@ -10,7 +10,7 @@ public class CharacterMovement : MonoBehaviour
 {
     [Header("Components")]
     private CharacterController controller;
-    private Animator animator;
+    public Animator animator;
     private CardSpawner cSpawn;
     public GameObject attackHitbox;
 
@@ -155,11 +155,13 @@ public class CharacterMovement : MonoBehaviour
  
         //Inputs para animator
         if (moveInput != 0 || turnInput != 0){
-            animator.SetBool("isRunning", true);
+            //animator.SetBool("isRunning", true);
+            animator.SetBool("isWalking", true);//Anime Ace anim
         }
         else
         {
-            animator.SetBool("isRunning",false);
+            //animator.SetBool("isRunning",false);
+            animator.SetBool("isWalking", false);
         }
 
     }
@@ -221,9 +223,8 @@ public class CharacterMovement : MonoBehaviour
         if (!playerDisabled)
         {
             PlayerMovement();
-            
-            animator.SetBool("isAttacking", cSpawn.isShooting);
-           
+
+            //animator.SetBool("isAttacking", cSpawn.isShooting);
 
         }
 

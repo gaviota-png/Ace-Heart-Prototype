@@ -13,7 +13,7 @@ public class CardSpawner : MonoBehaviour
 
     public IEnumerator cardRoutine;
 
-    //public List<Card> cardList;
+    private Animator anim;
     [SerializeField] public Queue<Card> cardQueue;
 
     public int listIndex = 3;
@@ -26,7 +26,7 @@ public class CardSpawner : MonoBehaviour
 
     private void Start()
     {
-        //cardList = new List<Card>();
+        anim = GetComponent<Animator>();
         cardQueue = new Queue<Card>();
     }
     // Update is called once per frame
@@ -34,6 +34,7 @@ public class CardSpawner : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
+            anim.SetTrigger("CardThrow");
             FireCard();
         }
         if (Input.GetKeyDown(KeyCode.S))

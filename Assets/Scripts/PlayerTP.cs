@@ -37,6 +37,7 @@ public class PlayerTP : MonoBehaviour
                         enem.tag = "Enemy";
                         enem.tpPointer.SetActive(false);
                         enem.PlayTPAnim();
+                        player.animator.SetTrigger("TrickShot");
                     }
                 }
                 else
@@ -47,6 +48,8 @@ public class PlayerTP : MonoBehaviour
             else if (cSpawn.cardQueue.Peek().tag == "Marked")//si obj carta tiene tag marked y existe carta ejecutar code
             {
                 StartCoroutine(TeleportCard());
+                
+                player.animator.SetTrigger("TrickShot");//dejar comentado si no se esta usando modelo anime ace 
             }
         }
     }
