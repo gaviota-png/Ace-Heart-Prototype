@@ -105,6 +105,15 @@ public class EnemyController : MonoBehaviour
         if (!playerInRange && !attackInRange) Patroling();
         //if (playerInRange && !attackInRange) Chasing();
         
+        if (gameObject.tag == "EnemyMarked")
+        {
+            tpPointer.SetActive(true);
+        }
+        else
+        {
+            tpPointer.SetActive(false);
+        }
+
 
     }
 
@@ -152,12 +161,13 @@ public class EnemyController : MonoBehaviour
 
     public void TakeDamage()
     {
-        if (enemyLife >= 0)
+        enemyLife -= 1;
+        
+        if (enemyLife <= 0)
         {
-            enemyLife -= 1;
             Debug.Log("ENEMY DEAD");
 
-           Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 
@@ -172,20 +182,28 @@ public class EnemyController : MonoBehaviour
         
     }
 
-   
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.tag == "Card")
+        
+        if (other.gameObject.tag == "Player" && attackInRange)
         {
-            tpPointer.SetActive(true);          
-
-
-        }
-        if (collision.gameObject.tag == "Player" && attackInRange)
-        {
+            Debug.Log("ATTACKING PLAYER");
             Attacking();
         }
     }
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.tag == "Card")
+    //    {
+    //        tpPointer.SetActive(true);          
+
+
+    //    }
+    //    if (collision.gameObject.tag == "Player" && attackInRange)
+    //    {
+    //        Attacking();
+    //    }
+    //}
 
 }

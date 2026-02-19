@@ -37,7 +37,7 @@ public class PlayerTP : MonoBehaviour
                         enem.tag = "Enemy";
                         enem.tpPointer.SetActive(false);
                         enem.PlayTPAnim();
-                        player.animator.SetTrigger("TrickShot");
+                        //player.animator.SetTrigger("TrickShot");
                     }
                 }
                 else
@@ -49,7 +49,7 @@ public class PlayerTP : MonoBehaviour
             {
                 StartCoroutine(TeleportCard());
                 
-                player.animator.SetTrigger("TrickShot");//dejar comentado si no se esta usando modelo anime ace 
+                //player.animator.SetTrigger("TrickShot");//dejar comentado si no se esta usando modelo anime ace 
             }
         }
     }

@@ -103,10 +103,47 @@ public class Card : MonoBehaviour
 
     }
 
-    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.transform.parent.tag == "Enemy")
+        {
+            Debug.Log("Marked Enemy");
+            other.gameObject.transform.parent.tag = "EnemyMarked";
+
+            //carta dentro de enemigo
+            gameObject.SetActive(false);
+            gameObject.transform.SetParent(other.gameObject.transform.parent); //dejar carta como hijo de enemigo al chocar con trigger de empty dentro de enem
+            insideObj = true;
+            objMarked = other.gameObject.transform.parent.gameObject;//objeto marcado es el enemigo padre
+            
+
+        }
+        else if (other.gameObject.transform.parent.tag == "EnemyMarked")
+        {
+            Debug.Log("THERES A CARD INSIDE ENEMY");
+
+
+            if (insideObj == false && cardMoving == true)
+            {
+                
+                if (spawner != null)
+                {
+                    Debug.Log("SPAWNER NOT NULL");
+                    spawner.cardStopMoving = true;
+
+                }
+            }
+            else
+            {
+                Debug.Log("CARD HIT OBJ (but nothing happened)");
+            }
+
+
+        }
+    }
     private void OnCollisionEnter(Collision collision)
     {
-
+        //deteccion de enemigo si es que no tiene isKinematic
         if (collision.gameObject.tag == "Enemy")
         {
             Debug.Log("Marked Enemy");
@@ -115,6 +152,7 @@ public class Card : MonoBehaviour
             //carta dentro de enemigo
             gameObject.SetActive(false);
             gameObject.transform.SetParent(collision.gameObject.transform);
+
             insideObj = true;
             objMarked = collision.gameObject;
             

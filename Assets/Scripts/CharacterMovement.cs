@@ -155,13 +155,13 @@ public class CharacterMovement : MonoBehaviour
  
         //Inputs para animator
         if (moveInput != 0 || turnInput != 0){
-            //animator.SetBool("isRunning", true);
-            animator.SetBool("isWalking", true);//Anime Ace anim
+            animator.SetBool("isRunning", true);
+            //animator.SetBool("isWalking", true);//Anime Ace anim
         }
         else
         {
-            //animator.SetBool("isRunning",false);
-            animator.SetBool("isWalking", false);
+            animator.SetBool("isRunning",false);
+            //animator.SetBool("isWalking", false);
         }
 
     }
